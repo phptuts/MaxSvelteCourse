@@ -1,4 +1,6 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
+
   import Button from "../UI/Button.svelte";
 
   export let title;
@@ -7,6 +9,16 @@
   export let description;
   export let address;
   export let email;
+  export let isFavorite;
+  export let id;
+
+  const dispatch = createEventDispatcher();
+  
+  function toggleFavorite() {
+    console.log(id);
+    dispatch('togglefavorite', id)
+  }
+
 </script>
 
 <style>
@@ -68,7 +80,7 @@
 
 <article>
   <header>
-    <h1>{title}</h1>
+    <h1>{title} {#if isFavorite }<strong>*</strong> {/if} </h1>
     <h2>{subtitle}</h2>
     <p>{address}</p>
   </header>
@@ -80,7 +92,7 @@
   </div>
   <footer>
     <Button href="mailto{email}" caption="Contact" />
-    <Button mode="outline" type="button" caption="Show Details" />
-    <Button type="button" caption="Favorite" />
+    <Button mode="outline" type="button" caption="Show Details"  />
+    <Button type="button" caption="{isFavorite ? 'Unfavorite': 'Favorite'}" on:click={toggleFavorite} />
   </footer>
 </article>

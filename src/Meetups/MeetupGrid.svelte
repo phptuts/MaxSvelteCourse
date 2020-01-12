@@ -19,8 +19,11 @@
 </style>
 
 <section id="meetups">
-  {#each meetups as meetup}
+  {#each meetups as meetup (meetup.id) }
     <MeetupItem
+      on:togglefavorite
+      isFavorite={meetup.isFavorite}
+      id={meetup.id}
       title={meetup.title}
       subtitle={meetup.subtitle}
       imageUrl={meetup.imageUrl}

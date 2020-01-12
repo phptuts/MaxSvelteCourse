@@ -22,7 +22,8 @@
       description:
         "In this meetup, we will have some experts that teach how to code.",
       address: "27th Nerd Road, 32523 New York",
-      contactEmail: "code@test.com"
+      contactEmail: "code@test.com",
+      isFavorite: false
     },
     {
       id: "m2",
@@ -32,7 +33,8 @@
       imageUrl:
         "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/40._Schwimmzonen-_und_Mastersmeeting_Enns_2017_100m_Butterfly-9318.jpg/2560px-40._Schwimmzonen-_und_Mastersmeeting_Enns_2017_100m_Butterfly-9318.jpg",
       address: "27th Nerd Road, 32523 New York",
-      contactEmail: "swim@test.com"
+      contactEmail: "swim@test.com",
+      isFavorite: false
     }
   ];
   function addMeetup() {
@@ -46,6 +48,16 @@
       address
     };
     meetups = [newMeetup, ...meetups];
+  }
+
+  function toggleFavorite(event) {
+    meetups = meetups.map(meetup => {
+        if (meetup.id === event.detail) {
+          meetup.isFavorite = !meetup.isFavorite;
+        }
+
+        return meetup;
+    });
   }
 </script>
 
@@ -67,34 +79,29 @@
     <TextInput
       id="title"
       label="Title"
-      type="text"
       value={title}
       on:input={event => (title = event.target.value)} />
     <TextInput
       id="subtitle"
       label="Sub Title"
-      type="text"
       value={subtitle}
       on:input={event => (subtitle = event.target.value)} />
 
     <TextInput
       id="address"
       label="Address"
-      type="text"
       value={address}
       on:input={event => (address = event.target.value)} />
 
     <TextInput
       id="imageUrl"
       label="Image Url"
-      type="text"
       value={imageUrl}
       on:input={event => (imageUrl = event.target.value)} />
 
     <TextInput
       id="email"
       label="Email"
-      type="email"
       value={email}
       on:input={event => (email = event.target.value)} />
 
@@ -106,5 +113,5 @@
       on:input={event => (description = event.target.value)} />
         <Button type="submit" caption="Save" />
   </form>
-  <MeetupGrid {meetups} />
+  <MeetupGrid {meetups} on:togglefavorite={toggleFavorite} />
 </main>
