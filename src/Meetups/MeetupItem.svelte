@@ -1,5 +1,5 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import meetups from './meetups-store.js';
 
   import Button from "../UI/Button.svelte";
   import Badge from "../UI/Badge.svelte";
@@ -12,12 +12,9 @@
   export let email;
   export let isFavorite;
   export let id;
-
-  const dispatch = createEventDispatcher();
   
   function toggleFavorite() {
-    console.log(id);
-    dispatch('togglefavorite', id)
+    meetups.toggleFavorite(id);
   }
 
 </script>
@@ -92,7 +89,7 @@
     <p>{description}</p>
   </div>
   <footer>
-    <Button href="mailto{email}"  >Contact</Button>
+    <Button href="mailto:{email}"  >Contact</Button>
     <Button mode="outline" type="button"   >Show Details</Button>
     <Button 
           mode="outline"
