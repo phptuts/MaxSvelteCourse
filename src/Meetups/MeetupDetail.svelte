@@ -9,7 +9,7 @@
     export let id;
 
 
-    selectedMeetup = null
+    let selectedMeetup = null
 
     const unsubscribe = meetups.subscribe(meetups => {
         selectedMeetup = meetups.find(meetup => meetup.id === id);

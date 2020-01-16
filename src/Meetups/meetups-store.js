@@ -35,6 +35,20 @@ const customMeetupsStore = {
       return [meetupData, ...items];
     });
   },
+  updateMeedup: (id, editedMeetup) => {
+    meetups.update((items) => {
+      const meetupIndex = items.findIndex((item) => item.id === id);
+      const updatedMeetup = { ...items[meetupIndex], ...editedMeetup };
+      const updatedMeetups = [...items];
+      updatedMeetups[meetupIndex] = updatedMeetup;
+      return updatedMeetups;
+    });
+  },
+  removeMeetup(id) {
+    meetups.update((items) => {
+      return items.filter((item) => item.id !== id);
+    });
+  },
   toggleFavorite: (id) => {
     meetups.update((meetups) => {
       return meetups.map((meetup) => {

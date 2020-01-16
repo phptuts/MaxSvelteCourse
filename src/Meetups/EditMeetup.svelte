@@ -7,12 +7,30 @@
 
 
   import { createEventDispatcher } from 'svelte';
+  export let id = null;
+
+  
+  
+
   let title = "";
   let subtitle = "";
   let address = "";
   let email = "";
   let description = "";
   let imageUrl = "";
+
+  if (id) {
+    const unsubscribe = meetups.subscribe(items => {
+        const selectedMeetup = items.find(item => item.id === id);
+        title = selectedMeetup.title;
+        subtitle = selectedMeetup.subtitle;
+        address = selectedMeetup.address;
+        email = selectedMeetup.contactEmail;
+        description = selectedMeetup.description;
+        imageUrl = selectedMeetup.imageUrl;
+    });
+    unsubscribe();
+  }
 
   const dispatch = createEventDispatcher()
 
@@ -25,12 +43,22 @@
           description,
           imageUrl
       };
-      meetups.add(newMeetup);
+      if (id) {
+        meetups.updateMeedup(id, newMeetup);
+      } else {
+        meetups.add(newMeetup);
+      }
+
       dispatch('save');
     }
 
     function cancel() {
         dispatch('cancel');
+    }
+
+    function deleteMeetup() {
+        meetups.removeMeetup(id);
+        dispatch('save');
     }
 
 </script>
@@ -84,5 +112,8 @@
               <Button type="button" mode="outline" on:click={cancel}  >Cancel</Button>
 
               <Button type="button" on:click={submitForm}  >Save</Button>
+              {#if id}
+                <Button type="button" on:click={deleteMeetup}>Delete</Button>
+              {/if}
       </div>
 </Modal>
